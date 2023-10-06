@@ -5,9 +5,8 @@ import org.example.model.TollBooth;
 import org.example.model.vehicle.Vehicle;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TollBoothHandler {
     static final Map<Integer, TollBooth> tollBoothMap = new HashMap<>();
@@ -27,6 +26,8 @@ public class TollBoothHandler {
     }
     public void isVehiclePermitted(Vehicle vehicle, PassType passType,Integer totalTollBoothId){
         if(registrationPassMap.containsKey(vehicle.getRegNumber())&& validatePass(vehicle,passType) && validatePassType(passType,vehicle) ){
+            System.out.println("Vehicle is allowed to pass");
+            tollBoothMap.get(totalTollBoothId).vehiclePassed(vehicle);
         }else{
             System.out.println("You need to BUY Toll Pass");
             System.out.println("Please select a valid pass for you vehicle");
@@ -121,6 +122,10 @@ public class TollBoothHandler {
             }
         }
     }
-
+ void showLeaderBoard(){
+        List<TollBooth> tollBoothList = tollBoothMap.values().stream().collect(Collectors.toList());
+        Collections.sort(tollBoothList);
+        tollBoothList.stream().forEach(System.out::println);
+ }
 
 }

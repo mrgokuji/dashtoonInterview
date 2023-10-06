@@ -1,6 +1,8 @@
 package org.example.model;
 
-public class TollBooth {
+import org.example.model.vehicle.Vehicle;
+
+public class TollBooth implements Comparable<TollBooth>{
     Integer tollBoothId;
     String tollBoothName;
     Integer numberOfTwoWheelerPassed;
@@ -33,5 +35,32 @@ public class TollBooth {
 
     public void addAmount(double amt){
         this.amountCollected += amt;
+    }
+
+    public void vehiclePassed(Vehicle vehicle){
+        switch (vehicle.getVehicleType()){
+            case FOUR -> this.numberOfFourWheelerPassed++;
+            case TWO -> this.numberOfTwoWheelerPassed++;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "TollBooth{" +
+                "tollBoothId=" + tollBoothId +
+                ", tollBoothName='" + tollBoothName + '\'' +
+                ", numberOfTwoWheelerPassed=" + numberOfTwoWheelerPassed +
+                ", numberOfFourWheelerPassed=" + numberOfFourWheelerPassed +
+                ", amountCollected=" + amountCollected +
+                '}';
+    }
+
+    @Override
+    public int compareTo(TollBooth o) {
+        if( o.amountCollected > this.amountCollected)
+            return 1;
+        else if (o.amountCollected == this.amountCollected) return 0;
+
+        return -1;
     }
 }
